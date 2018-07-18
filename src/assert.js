@@ -348,7 +348,7 @@ class Assert {
 				currentTest.assert.pushResult( {
 					result: false,
 					message: message,
-					assertionType: assertionType
+					assertionType
 				} );
 
 				return;
@@ -364,7 +364,7 @@ class Assert {
 				result: false,
 				message: message,
 				actual: promise,
-				assertionType: assertionType
+				assertionType
 			} );
 
 			return;
@@ -382,7 +382,7 @@ class Assert {
 					result: false,
 					message: message,
 					actual: promise,
-					assertionType: assertionType
+					assertionType
 				} );
 
 				done();
@@ -431,7 +431,7 @@ class Assert {
 					actual,
 					expected,
 					message,
-					assertionType: assertionType
+					assertionType
 				} );
 
 				done();
