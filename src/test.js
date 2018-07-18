@@ -441,7 +441,8 @@ Test.prototype = {
 				testId: this.testId,
 				negative: resultInfo.negative || false,
 				runtime: now() - this.started,
-				todo: !!this.todo
+				todo: !!this.todo,
+				assertionType: resultInfo.assertionType
 			};
 
 		if ( hasOwn.call( resultInfo, "expected" ) ) {

@@ -38,7 +38,8 @@ class Assert {
 
 		return this.pushResult( {
 			result,
-			message: assertionMessage
+			message: assertionMessage,
+			assertionType: "step"
 		} );
 	}
 
@@ -144,7 +145,8 @@ class Assert {
 			result: !!result,
 			actual: result,
 			expected: true,
-			message
+			message,
+			assertionType: "ok"
 		} );
 	}
 
@@ -159,7 +161,8 @@ class Assert {
 			result: !result,
 			actual: result,
 			expected: false,
-			message
+			message,
+			assertionType: "notOk"
 		} );
 	}
 
@@ -172,7 +175,8 @@ class Assert {
 			result,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "equal"
 		} );
 	}
 
@@ -186,7 +190,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notEqual"
 		} );
 	}
 
@@ -198,7 +203,8 @@ class Assert {
 			result: equiv( actual, expected ),
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "propEqual"
 		} );
 	}
 
@@ -211,7 +217,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notPropEqual"
 		} );
 	}
 
@@ -220,7 +227,8 @@ class Assert {
 			result: equiv( actual, expected ),
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "deepEqual"
 		} );
 	}
 
@@ -230,7 +238,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notDeepEqual"
 		} );
 	}
 
@@ -239,7 +248,8 @@ class Assert {
 			result: expected === actual,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "strictEqual"
 		} );
 	}
 
@@ -249,7 +259,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notStrictEqual"
 		} );
 	}
 
@@ -313,11 +324,13 @@ class Assert {
 			result,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "throws"
 		} );
 	}
 
 	rejects( promise, expected, message ) {
+		const assertionType = "rejects";
 		let result = false;
 
 		const currentTest = ( this instanceof Assert && this.test ) || config.current;
@@ -334,7 +347,8 @@ class Assert {
 
 				currentTest.assert.pushResult( {
 					result: false,
-					message: message
+					message: message,
+					assertionType: assertionType
 				} );
 
 				return;
@@ -349,7 +363,8 @@ class Assert {
 			currentTest.assert.pushResult( {
 				result: false,
 				message: message,
-				actual: promise
+				actual: promise,
+				assertionType: assertionType
 			} );
 
 			return;
@@ -366,7 +381,8 @@ class Assert {
 				currentTest.assert.pushResult( {
 					result: false,
 					message: message,
-					actual: promise
+					actual: promise,
+					assertionType: assertionType
 				} );
 
 				done();
@@ -414,7 +430,8 @@ class Assert {
 					result,
 					actual,
 					expected,
-					message
+					message,
+					assertionType: assertionType
 				} );
 
 				done();
