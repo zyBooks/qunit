@@ -48,7 +48,13 @@ class Assert {
 
 		// Since the steps array is just string values, we can clone with slice
 		const actualStepsClone = this.test.steps.slice();
-		this.deepEqual( actualStepsClone, steps, message );
+		this.pushResult( {
+			result: equiv( actualStepsClone, steps ),
+			actual: actualStepsClone,
+			expected: steps,
+			message,
+			assertionType: "verifySteps"
+		} );
 		this.test.steps.length = 0;
 	}
 
@@ -129,6 +135,10 @@ class Assert {
 
 		if ( !( assert instanceof Assert ) ) {
 			assert = currentTest.assert;
+		}
+
+		if ( !resultInfo.assertionType ) {
+			resultInfo.assertionType = "pushResult";
 		}
 
 		return assert.test.pushResult( resultInfo );
