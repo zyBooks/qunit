@@ -128,6 +128,7 @@ QUnit.test( module1Test1.name, function( assert ) {
 	delete logContext.runtime;
 	assert.deepEqual( logContext, {
 		name: module1Test1.name,
+		assertionType: "equal",
 		module: module1Context.name,
 		result: true,
 		message: "log runtime was a reasonable number",
@@ -143,6 +144,7 @@ QUnit.test( module1Test1.name, function( assert ) {
 	delete logContext.runtime;
 	assert.deepEqual( logContext, {
 		name: module1Test1.name,
+		assertionType: "equal",
 		module: module1Context.name,
 		result: true,
 		message: undefined,
@@ -158,6 +160,7 @@ QUnit.test( module1Test1.name, function( assert ) {
 	delete logContext.runtime;
 	assert.deepEqual( logContext, {
 		module: module1Context.name,
+		assertionType: "ok",
 		name: module1Test1.name,
 		result: true,
 		message: "ok(true, message)",

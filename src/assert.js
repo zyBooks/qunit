@@ -38,7 +38,8 @@ class Assert {
 
 		return this.pushResult( {
 			result,
-			message: assertionMessage
+			message: assertionMessage,
+			assertionType: "step"
 		} );
 	}
 
@@ -47,7 +48,13 @@ class Assert {
 
 		// Since the steps array is just string values, we can clone with slice
 		const actualStepsClone = this.test.steps.slice();
-		this.deepEqual( actualStepsClone, steps, message );
+		this.pushResult( {
+			result: equiv( actualStepsClone, steps ),
+			actual: actualStepsClone,
+			expected: steps,
+			message,
+			assertionType: "verifySteps"
+		} );
 		this.test.steps.length = 0;
 	}
 
@@ -130,6 +137,10 @@ class Assert {
 			assert = currentTest.assert;
 		}
 
+		if ( !resultInfo.assertionType ) {
+			resultInfo.assertionType = "pushResult";
+		}
+
 		return assert.test.pushResult( resultInfo );
 	}
 
@@ -144,7 +155,8 @@ class Assert {
 			result: !!result,
 			actual: result,
 			expected: true,
-			message
+			message,
+			assertionType: "ok"
 		} );
 	}
 
@@ -159,7 +171,8 @@ class Assert {
 			result: !result,
 			actual: result,
 			expected: false,
-			message
+			message,
+			assertionType: "notOk"
 		} );
 	}
 
@@ -172,7 +185,8 @@ class Assert {
 			result,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "equal"
 		} );
 	}
 
@@ -186,7 +200,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notEqual"
 		} );
 	}
 
@@ -198,7 +213,8 @@ class Assert {
 			result: equiv( actual, expected ),
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "propEqual"
 		} );
 	}
 
@@ -211,7 +227,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notPropEqual"
 		} );
 	}
 
@@ -220,7 +237,8 @@ class Assert {
 			result: equiv( actual, expected ),
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "deepEqual"
 		} );
 	}
 
@@ -230,7 +248,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notDeepEqual"
 		} );
 	}
 
@@ -239,7 +258,8 @@ class Assert {
 			result: expected === actual,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "strictEqual"
 		} );
 	}
 
@@ -249,7 +269,8 @@ class Assert {
 			actual,
 			expected,
 			message,
-			negative: true
+			negative: true,
+			assertionType: "notStrictEqual"
 		} );
 	}
 
@@ -313,11 +334,13 @@ class Assert {
 			result,
 			actual,
 			expected,
-			message
+			message,
+			assertionType: "throws"
 		} );
 	}
 
 	rejects( promise, expected, message ) {
+		const assertionType = "rejects";
 		let result = false;
 
 		const currentTest = ( this instanceof Assert && this.test ) || config.current;
@@ -334,7 +357,8 @@ class Assert {
 
 				currentTest.assert.pushResult( {
 					result: false,
-					message: message
+					message: message,
+					assertionType
 				} );
 
 				return;
@@ -349,7 +373,8 @@ class Assert {
 			currentTest.assert.pushResult( {
 				result: false,
 				message: message,
-				actual: promise
+				actual: promise,
+				assertionType
 			} );
 
 			return;
@@ -366,7 +391,8 @@ class Assert {
 				currentTest.assert.pushResult( {
 					result: false,
 					message: message,
-					actual: promise
+					actual: promise,
+					assertionType
 				} );
 
 				done();
@@ -414,7 +440,8 @@ class Assert {
 					result,
 					actual,
 					expected,
-					message
+					message,
+					assertionType
 				} );
 
 				done();
